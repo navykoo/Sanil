@@ -1,0 +1,53 @@
+#!/usr/bin/python
+from Tkinter import * 
+import tkMessageBox
+from w import *
+
+class Application(Frame):
+	def __init__(self, master=None):
+		Frame.__init__(self, master)
+		self.createWidgets()
+		self.pack()
+
+	def testButtons(self):
+		#print 'this is a test!'
+		tkMessageBox.showinfo("Hello","This is a test")
+
+	def showWeatherReport(self):
+		#tkMessageBox.showinfo("Weather",getWeatherReport())
+		self.label.config(text=getWeatherReport2())
+		#nothing for now
+
+	def createWidgets(self):
+
+		#TODO: get retrieve form size
+		self.mainbg = Canvas(self,bg='white',height=600,width=800)
+		self.mainbg.create_rectangle(0,0,100,600,fill='green')
+		self.mainbg.create_rectangle(100,0,800,600,fill='grey')
+	
+		self.wButton = Button(self.mainbg,text="Weather",command=self.showWeatherReport)
+		self.wButton.place(height=30,width=60,relx=0.01,rely=0.05)
+
+		self.cButton = Button(self.mainbg,text="Calendar")
+		self.cButton.place(height=30,width=60,relx=0.01,rely=0.15)
+
+		self.tButton = Button(self.mainbg,text="Timer")
+		self.tButton.place(height=30,width=60,relx=0.01,rely=0.25)
+
+		self.fButton = Button(self.mainbg,text="Food")
+		self.fButton.place(height=30,width=60,relx=0.01,rely=0.35)
+
+		self.qButton = Button(self.mainbg, text="Quit",command=self.quit )
+		self.qButton.place(height=30,width=60,relx=0.01,rely=0.45)
+
+		self.label = Label(self.mainbg,text='Waiting...',justify=RIGHT, compound='right')
+		self.label.place(height=40,width=200,relx=0.2,rely=0.5)
+		
+		self.mainbg.pack()
+
+#tkMessageBox.showinfo("Weather",getWeatherReport())
+		
+app = Application()
+app.master.geometry('800x600')
+app.master.title("Sanil (v0.1)")
+app.mainloop()
