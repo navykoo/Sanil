@@ -16,7 +16,11 @@ class Application(Frame):
 
 	def showWeatherReport(self):
 		#tkMessageBox.showinfo("Weather",getWeatherReport())
-		self.label.config(text=getWeatherReport2())
+		weaInfo = getWeatherInfo2()
+		weaText = "Publish time:"+ weaInfo['date_y'].encode('utf-8')+weaInfo['fchh'].encode('utf-8')
+		weaText += "\r\n"+"   day 1:"+weaInfo['temp1'].encode('utf-8')+";"+weaInfo['weather1'].encode('utf-8')+"; "+weaInfo['wind1'].encode('utf-8')
+		weaText += "\r\n"+"   day 2:"+weaInfo['temp2'].encode('utf-8')+";"+weaInfo['weather2'].encode('utf-8')+"; "+weaInfo['wind2'].encode('utf-8')
+		self.label.config(text=weaText)
 		#nothing for now
 
 	def createWidgets(self):
@@ -43,7 +47,7 @@ class Application(Frame):
 		self.qButton.place(height=40,width=120,relx=0.01,rely=0.45)
 
 		self.label = Label(self.mainbg,text='Waiting...',justify=RIGHT, compound='right')
-		self.label.place(height=40,width=200,relx=0.2,rely=0.5)
+		self.label.place(height=500,width=300,relx=0.2,rely=0.5)
 		
 		self.mainbg.pack()
 

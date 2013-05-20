@@ -47,6 +47,9 @@ def printWeatherFromJSON(html):
 	print ddata['weatherinfo']['city'].encode('utf-8')
 	print ddata['weatherinfo']['date_y'].encode('utf-8')
 	print ddata['weatherinfo']['temp1'].encode('utf-8')
+def getWeatherInfo2():
+	data = simplejson.loads(getHtml2(sz_url))
+	return data['weatherinfo']
 
 def getWeatherReport2():
 	data = simplejson.loads(getHtml2(sz_url))
