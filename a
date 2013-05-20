@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#-*-coding:utf-8-*-
 from Tkinter import * 
 import tkMessageBox
 import tkFont
@@ -17,9 +18,9 @@ class Application(Frame):
 	def showWeatherReport(self):
 		#tkMessageBox.showinfo("Weather",getWeatherReport())
 		weaInfo = getWeatherInfo2()
-		weaText = "Publish time:"+ weaInfo['date_y'].encode('utf-8')+weaInfo['fchh'].encode('utf-8')
-		weaText += "\r\n"+"   day 1:"+weaInfo['temp1'].encode('utf-8')+";"+weaInfo['weather1'].encode('utf-8')+"; "+weaInfo['wind1'].encode('utf-8')
-		weaText += "\r\n"+"   day 2:"+weaInfo['temp2'].encode('utf-8')+";"+weaInfo['weather2'].encode('utf-8')+"; "+weaInfo['wind2'].encode('utf-8')
+		weaText = "发布时间: "+ weaInfo['date_y'].encode('utf-8')+" "+weaInfo['fchh'].encode('utf-8')
+		for i in range(1,7): 
+			weaText += "\r\n"+"第"+str(i)+"天: "+weaInfo['temp'+str(i)].encode('utf-8')+";"+weaInfo['weather'+str(i)].encode('utf-8')+"; "+weaInfo['wind'+str(i)].encode('utf-8')
 		self.label.config(text=weaText)
 		#nothing for now
 
@@ -46,8 +47,8 @@ class Application(Frame):
 		self.qButton = Button(self.mainbg, text="Quit",font=btnFT,command=self.quit )
 		self.qButton.place(height=40,width=120,relx=0.01,rely=0.45)
 
-		self.label = Label(self.mainbg,text='Waiting...',justify=RIGHT, compound='right')
-		self.label.place(height=500,width=300,relx=0.2,rely=0.5)
+		self.label = Label(self.mainbg,text='Waiting...',justify=LEFT, compound='right')
+		self.label.place(height=500,width=400,relx=0.2,rely=0.1)
 		
 		self.mainbg.pack()
 
