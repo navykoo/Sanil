@@ -32,19 +32,19 @@ class Application(Frame):
 		self.mainbg.create_rectangle(150,0,800,600,fill='grey')
 
 		btnFT = tkFont.Font(family='Fixdsys',size=16,weight=tkFont.BOLD)	
-		self.wButton = Button(self.mainbg,text="Weather",font=btnFT,command=self.showWeatherReport)
+		self.wButton = Button(self.mainbg,text="天气预报",font=btnFT,command=self.showWeatherReport)
 		self.wButton.place(height=40,width=120,relx=0.01,rely=0.05)
 
-		self.cButton = Button(self.mainbg,text="Calendar",font=btnFT)
+		self.cButton = Button(self.mainbg,text="日历",font=btnFT)
 		self.cButton.place(height=40,width=120,relx=0.01,rely=0.15)
 
-		self.tButton = Button(self.mainbg,text="Timer",font=btnFT)
+		self.tButton = Button(self.mainbg,text="定时",font=btnFT)
 		self.tButton.place(height=40,width=120,relx=0.01,rely=0.25)
 
-		self.fButton = Button(self.mainbg,text="Food",font=btnFT)
+		self.fButton = Button(self.mainbg,text="美食",font=btnFT)
 		self.fButton.place(height=40,width=120,relx=0.01,rely=0.35)
 
-		self.qButton = Button(self.mainbg, text="Quit",font=btnFT,command=self.quit )
+		self.qButton = Button(self.mainbg, text="退出",font=btnFT,command=self.quit )
 		self.qButton.place(height=40,width=120,relx=0.01,rely=0.45)
 
 		self.label = Label(self.mainbg,text='Waiting...',justify=LEFT, compound='right')
