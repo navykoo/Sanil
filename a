@@ -4,6 +4,7 @@ from Tkinter import *
 import tkMessageBox
 import tkFont
 from w import *
+from calendar import *
 
 class Application(Frame):
 	def __init__(self, master=None):
@@ -24,18 +25,29 @@ class Application(Frame):
 		self.label.config(text=weaText)
 		#nothing for now
 
+	def updateCalendar(self):
+		updateDate(self.leftFrame)
+
+	def showCalendar(self):
+		self.label.config(text="")
+		#AppCal = Calendar()
+		displayCalendar(self.leftFrame)
+		#self.leftFrame.pack()
+
 	def createWidgets(self):
 
 		#TODO: get retrieve form size
 		self.mainbg = Canvas(self,bg='white',height=600,width=800)
 		self.mainbg.create_rectangle(0,0,150,600,fill='green')
 		self.mainbg.create_rectangle(150,0,800,600,fill='grey')
-
+		self.leftFrame = Frame(self,width=500,height=550,relief=GROOVE)
+		self.leftFrame.place(relx=0.3,rely=0.05)
+ 
 		btnFT = tkFont.Font(family='Fixdsys',size=16,weight=tkFont.BOLD)	
-		self.wButton = Button(self.mainbg,text="天气预报",font=btnFT,command=self.showWeatherReport)
+		self.wButton = Button(self.mainbg,text="天气",font=btnFT,command=self.showWeatherReport)
 		self.wButton.place(height=40,width=120,relx=0.01,rely=0.05)
 
-		self.cButton = Button(self.mainbg,text="日历",font=btnFT)
+		self.cButton = Button(self.mainbg,text="日历",font=btnFT,command=self.showCalendar)
 		self.cButton.place(height=40,width=120,relx=0.01,rely=0.15)
 
 		self.tButton = Button(self.mainbg,text="定时",font=btnFT)
