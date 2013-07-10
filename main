@@ -1,0 +1,43 @@
+#!/usr/bin/python
+#-*-coding:utf-8-*-
+from Tkinter import * 
+import tkMessageBox
+import tkFont
+
+
+root = Tk()
+#root.option_readfile('optionDB')
+root.title('Sanil')
+
+topFrame = Toplevel(root,borderwidth=5)
+
+
+#top panel
+topPanel = Frame(topFrame,borderwidth=0)
+Label(topPanel,text='18:26 PM').pack(side=RIGHT)
+topPanel.pack(side=TOP,fill=X,expand=YES)
+
+mainPanel = Frame(topFrame,borderwidth=2)
+#center panel
+btnFT = tkFont.Font(family='Fixdsys',size=36,weight=tkFont.BOLD)	
+#topFrame.grid_configure(minsize=60)
+
+Button(mainPanel,text='天气',bg='green',fg='white',font=btnFT,width=15).grid(row=0,column=0,rowspan=3,sticky=NSEW)
+Button(mainPanel,text='日历',bg='gray',fg='yellow',font=btnFT,width=8,height=4).grid(row=0,column=1,sticky=NSEW)
+Button(mainPanel,text='小孩',bg='orange',fg='green',font=btnFT).grid(row=0,column=2,sticky=NSEW)
+Button(mainPanel,text='财务',bg='gray',fg='yellow',font=btnFT).grid(row=1,column=1,sticky=NSEW)
+Button(mainPanel,text='老人',bg='blue',fg='white',font=btnFT).grid(row=1,column=2,sticky=NSEW)
+Button(mainPanel,text='美食',bg='pink',fg='green',font=btnFT).grid(row=2,column=1,sticky=NSEW)
+Button(mainPanel,text='退出',bg='gray',fg='blue',font=btnFT,command=root.quit).grid(row=2,column=2,sticky=NSEW)
+mainPanel.pack(side=TOP,anchor=CENTER,fill=X,expand=YES)
+
+
+bottomPanel = Frame(topFrame,borderwidth=2)
+Label(bottomPanel,text='(Sanil v0.1.7.10)').pack(side=RIGHT)
+bottomPanel.pack(side=TOP,fill=X,expand=YES)
+
+topFrame.overrideredirect(1)
+topFrame.geometry('800x600+150+50')
+
+
+root.mainloop()
