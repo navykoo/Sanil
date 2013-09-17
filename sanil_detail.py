@@ -1,8 +1,11 @@
+#-*-coding:utf-8-*-
 from   Tkinter import *
 import Pmw
 import os
 import AppShell
 from   datadictionary2 import *
+from w import *
+from calendar import *
 
 class SanilDetail(AppShell.AppShell):
     usecommandarea = 1
@@ -29,12 +32,12 @@ class SanilDetail(AppShell.AppShell):
         
     def addPage(self, dictionary,pageIdx):
         table, top, anchor, incr, fields, \
-	    title, keylist = dataDict[dictionary]
-	#self.notebook.add(table, label=title)
-	self.notebook.add(title)
+            title, keylist = dataDict[dictionary]
+        #self.notebook.add(table, label=title)
+        self.notebook.add(title)
         self.current = 0
         ypos = top
-	idx = 0
+        idx = 0
         for label, field, width, proc, valid, nonblank in fields:
             pstr = 'Label(self.notebook.page(pageIdx),'\
                    'text="%s").place(relx=%f,rely=%f, anchor=E)\n' % \
@@ -47,22 +50,31 @@ class SanilDetail(AppShell.AppShell):
                 pstr = '%sself.%s=Entry(self.notebook.page(pageIdx),'\
                        'text="", insertbackground="yellow",'\
                        'width=%d+1)\n' % (pstr,field,width)
-	    pstr = '%sself.%s.place(relx=%f, rely=%f,'\
+            pstr = '%sself.%s.place(relx=%f, rely=%f,'\
                    'anchor=W)\n' % (pstr,field,(anchor+0.02),ypos)
-	    exec '%sself.%sV=StringVar()\n'\
+            exec '%sself.%sV=StringVar()\n'\
                  'self.%s["textvariable"] = self.%sV' % \
                                           (pstr,field,field,field)
-	    ypos = ypos + incr
-	    idx = idx + 1
+            ypos = ypos + incr
+            idx = idx + 1
+
+    def addWeatherReport(self,page):
+	  weaInfo = getWeatherInfo2()
+	  weaText = "发布时间: "+ weaInfo['date_y'].encode('utf-8')+" "+weaInfo['fchh'].encode('utf-8')
+	  for i in range(1,7): 
+	    weaText += "\r\n"+"第"+str(i)+"天: "+weaInfo['temp'+str(i)].encode('utf-8')+";"+weaInfo['weather'+str(i)].encode('utf-8')+"; "+weaInfo['wind'+str(i)].encode('utf-8')
+	  Label(self.notebook.page(0),text=weaText).pack(pady=10)
 
     def addSPage(self,title):
         self.notebook.add(title)
 
     def createPages(self):
-	  self.addSPage('Weather')
-	  self.addSPage('Calendar')
-	  self.addSPage('Education')
-  	  self.update_display()
+        p1 = self.addSPage('Weather')
+        self.addWeatherReport(p1)
+        self.addSPage('Calendar')
+        displayCalendar(self.notebook.page(1))
+        self.addSPage('Education')
+        self.update_display()
 
     def update_display(self):
         pass
