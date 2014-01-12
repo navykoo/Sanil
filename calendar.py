@@ -1,4 +1,5 @@
 #-*-coding:utf-8-*-
+import pdb
 import time
 import tkFont
 from Tkinter import *
@@ -7,13 +8,14 @@ class Calendar:
 AppCal = Calendar()
 
 def calcFirstDayOfMonth(year,month,day):
+    #pdb.set_trace()
     months = (0,31,59,90,120,151,181,212,243,273,304,334)
     if 0 <= month <= 12:
         sum = months[month - 1]
     else:
         print 'data error'
     # ...............................
-    if year < 0 or month < 0 or month > 11 or day < 0 or day >31:
+    if year < 0 or month < 0 or month > 12 or day < 0 or day >31:
         import os
         os._exit(1)
         
@@ -31,6 +33,7 @@ def createMonth(master):
         for j in range(7):
             Label(master,text = '').grid(row = i + 2,column = j)
 def updateDate(self):
+    
     ft1 = tkFont.Font(weight=tkFont.BOLD)
     ft2 = tkFont.Font()
     #.........
@@ -53,6 +56,7 @@ def updateDate(self):
 	if (i == day):
 	        self.grid_slaves((i + fd - 1)/7 + 2,(i + fd -1)%7)[0]['text'] = str(i)
 	        self.grid_slaves((i + fd - 1)/7 + 2,(i + fd -1)%7)[0]['font'] = ft1
+	        self.grid_slaves((i + fd - 1)/7 + 2,(i + fd -1)%7)[0]['fg'] = 'red'
 	else:
 	        self.grid_slaves((i + fd - 1)/7 + 2,(i + fd -1)%7)[0]['text'] = str(i)
 	        self.grid_slaves((i + fd - 1)/7 + 2,(i + fd -1)%7)[0]['font'] = ft2
@@ -94,9 +98,10 @@ def drawHeader(master):
         Label(master,text = week).grid(row = 1,column = weeks.index(week))
 
 def displayCalendar(root):
-		drawHeader(root)
-		createMonth(root)
-		updateDate(root)
+    drawHeader(root)
+    createMonth(root)
+#there is some issue  here!!!
+    updateDate(root)  
     
 #from Tkinter import *
 #root = Tk()

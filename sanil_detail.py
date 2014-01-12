@@ -7,6 +7,11 @@ from   datadictionary2 import *
 from w import *
 from calendar import *
 
+import io
+import urllib
+import urllib2
+import base64
+
 class SanilDetail(AppShell.AppShell):
     usecommandarea = 1
     appname        = 'Next'        
@@ -15,13 +20,13 @@ class SanilDetail(AppShell.AppShell):
     frameHeight    = 520
     
     def createButtons(self):
-        self.buttonAdd('Return',
+        self.buttonAdd('刷新',
               helpMessage='Return to main menu',
-              statusMessage='...',
-              command=self.save)
-        self.buttonAdd('Refresh',
+              statusMessage='refreshed',
+              command=self.update_display)
+        self.buttonAdd('退出',
               helpMessage='Reload the pages',
-              statusMessage='Refresh',
+              statusMessage='quit',
                command=self.close)
         
     def createNotebook(self):
@@ -60,10 +65,45 @@ class SanilDetail(AppShell.AppShell):
 
     def addWeatherReport(self,page):
 	  weaInfo = getWeatherInfo2()
-	  weaText = "发布时间: "+ weaInfo['date_y'].encode('utf-8')+" "+weaInfo['fchh'].encode('utf-8')
+	  relTime = " (发布时间: "+ weaInfo['date_y'].encode('utf-8')+" "+weaInfo['fchh'].encode('utf-8')+"时)"
+
+	# need to split the data into a Day and Night sequence
+	# image pattern: 
+	# day: http://www.weather.com.cn/m2/i/icon_weather/29x20/d07.gif
+	# night: http://www.weather.com.cn/m2/i/icon_weather/29x20/n07.gif
+	# weaInfo['imgx']
+
+	  imgIDs=['d','n']
+	  imgIDIdx=0
+	  dateStr=""
+	  fetchHour = weaInfo['fchh']
+	  if int(fetchHour) >= 18:
+		imgIDIdx=1
+	  j=1
+	  self.img = {}
 	  for i in range(1,7): 
-	    weaText += "\r\n"+"第"+str(i)+"天: "+weaInfo['temp'+str(i)].encode('utf-8')+";"+weaInfo['weather'+str(i)].encode('utf-8')+"; "+weaInfo['wind'+str(i)].encode('utf-8')
-	  Label(self.notebook.page(0),text=weaText).pack(pady=10)
+	    if j == 1: dateStr1="今天"
+	    if j == 2: dateStr1="明天"
+	    if j == 3: dateStr1="后天"
+	    if j >= 4: dateStr1="第"+str(j)+"天"
+	    if imgIDIdx==1 :
+		dateStr= dateStr1+" (夜间): "
+		j = j+1
+	    else:
+		dateStr= dateStr1+" (白天): "
+
+	    weaText = dateStr+weaInfo['temp'+str(i)].encode('utf-8')+";"+weaInfo['weather'+str(i)].encode('utf-8')+"; "+weaInfo['wind'+str(i)].encode('utf-8')
+	    imgRemoteID = int(weaInfo['img'+str(i)])
+	    if imgRemoteID == 99: imgRemoteID=0
+            imgURL = '{0}{1}{2:02d}.gif'.format('http://www.weather.com.cn/m2/i/icon_weather/29x20/',imgIDs[imgIDIdx],imgRemoteID)
+	    imgByte = urllib2.urlopen(imgURL).read()
+	    imgB64  = base64.encodestring(imgByte)
+	    self.img[i] = PhotoImage(data=imgB64)
+	    Label(self.notebook.page(0),image=self.img[i]).grid(row=i,column=1)
+	    Label(self.notebook.page(0),text=weaText).grid(row=i,column=2,sticky=W)
+	    imgIDIdx=1-imgIDIdx
+
+	  Label(self.notebook.page(0),text=relTime).grid(row=7,column=2,sticky=E)
 
     def addSPage(self,title):
         self.notebook.add(title)
@@ -72,12 +112,20 @@ class SanilDetail(AppShell.AppShell):
         p1 = self.addSPage('Weather')
         self.addWeatherReport(p1)
         self.addSPage('Calendar')
-        displayCalendar(self.notebook.page(1))
+	try:
+	        displayCalendar(self.notebook.page(1))
+	except:
+		print "Unexpected error:", sys.exc_info()[0]
+		pass
         self.addSPage('Education')
-        self.update_display()
+        #self.update_display()
 
     def update_display(self):
         pass
+	self.notebook.delete('Weather')
+	self.notebook.delete('Calendar')
+	self.notebook.delete('Education')
+	self.createPages()
     
     def save(self):
         pass
