@@ -3,7 +3,7 @@
 from Tkinter import * 
 import tkMessageBox
 import tkFont
-
+from sanil_detail import *
 
 root = Tk()
 #root.option_readfile('optionDB')
@@ -17,12 +17,17 @@ topPanel = Frame(topFrame,borderwidth=0)
 Label(topPanel,text='18:26 PM').pack(side=RIGHT)
 topPanel.pack(side=TOP,fill=X,expand=YES)
 
+
+def showWeather():
+    sanildetail = SanilDetail()
+    sanildetail.run()
+
 mainPanel = Frame(topFrame,borderwidth=2)
 #center panel
 btnFT = tkFont.Font(family='Fixdsys',size=36,weight=tkFont.BOLD)	
 #topFrame.grid_configure(minsize=60)
 
-Button(mainPanel,text='天气',bg='green',fg='white',font=btnFT,width=15).grid(row=0,column=0,rowspan=3,sticky=NSEW)
+Button(mainPanel,text='天气',bg='green',fg='white',font=btnFT,width=15,command=showWeather).grid(row=0,column=0,rowspan=3,sticky=NSEW)
 Button(mainPanel,text='日历',bg='gray',fg='yellow',font=btnFT,width=8,height=4).grid(row=0,column=1,sticky=NSEW)
 Button(mainPanel,text='小孩',bg='orange',fg='green',font=btnFT).grid(row=0,column=2,sticky=NSEW)
 Button(mainPanel,text='财务',bg='gray',fg='yellow',font=btnFT).grid(row=1,column=1,sticky=NSEW)
