@@ -11,6 +11,7 @@ import io
 import urllib
 import urllib2
 import base64
+import tkFont
 
 class SanilDetail(AppShell.AppShell):
     usecommandarea = 1
@@ -65,6 +66,7 @@ class SanilDetail(AppShell.AppShell):
 
     def addWeatherReport(self,page):
 	  weaInfo = getWeatherInfo2()
+	  lblFont = tkFont.Font(family='Fixdsys',size=24)
 	  relTime = " (发布时间: "+ weaInfo['date_y'].encode('utf-8')+" "+weaInfo['fchh'].encode('utf-8')+"时)"
 
 	# need to split the data into a Day and Night sequence
@@ -100,7 +102,7 @@ class SanilDetail(AppShell.AppShell):
 	    imgB64  = base64.encodestring(imgByte)
 	    self.img[i] = PhotoImage(data=imgB64)
 	    Label(self.notebook.page(0),image=self.img[i]).grid(row=i,column=1)
-	    Label(self.notebook.page(0),text=weaText).grid(row=i,column=2,sticky=W)
+	    Label(self.notebook.page(0),text=weaText,font=lblFont).grid(row=i,column=2,sticky=W)
 	    imgIDIdx=1-imgIDIdx
 
 	  Label(self.notebook.page(0),text=relTime).grid(row=7,column=2,sticky=E)
