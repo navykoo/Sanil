@@ -19,7 +19,7 @@ class SanilDetail(AppShell.AppShell):
     dictionary     = 'crewmembers'
     frameWidth     = 435
     frameHeight    = 520
-    
+
     def createButtons(self):
         self.buttonAdd('刷新',
               helpMessage='Return to main menu',
@@ -31,8 +31,12 @@ class SanilDetail(AppShell.AppShell):
                command=self.close)
         
     def createNotebook(self):
+        lblFont = tkFont.Font(family='Fixdsys',size=24)
         self.notebook = self.createcomponent('notebook', (), None,
                                          Pmw.NoteBook, (self.interior(),),)
+
+        
+#self.notebook.font = lblFont
         self.notebook.pack(side=TOP, expand=YES, fill=BOTH, padx=5, pady=5)
         self.formwidth = self.root.winfo_width()
         
@@ -142,4 +146,5 @@ class SanilDetail(AppShell.AppShell):
         
 if __name__ == '__main__':
     sanildetail = SanilDetail()
+    sanildetail.root.option_readfile('optionDB')
     sanildetail.run()
